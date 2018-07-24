@@ -31,12 +31,8 @@ express()
 			full_url = "http://www."+url
 			pageView = pageView + "\n" + full_url
 			
-			unirest.get(full_url).maxRedirects(2).timeout(100000).end(function (result) {
+			unirest.get(full_url).end(function (result) {
 				pageView = pageView + "\n" + "Unirest"
-			}, function (err) {
-				if(err){
-					pageView = pageView+ "\n" + "Failed: " + url
-				}
 			})
 
 		res.send(pageView)		
