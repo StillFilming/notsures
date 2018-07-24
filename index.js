@@ -24,8 +24,8 @@ express()
 		let domains = "google.com,facebook.com"			
 		domains = domains.split(",")
 		
-		async.eachLimit(domains, 1, function (url, callback) {
-			pageView = pageView + url
+		async.eachLimit(domains, 2, function (url, callback) {
+			pageView = pageView + "/n" + url
 		}, function (err) {
 			if(err){
 				pageView = pageView + "Failed: " + url
