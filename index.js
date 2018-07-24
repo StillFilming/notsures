@@ -29,11 +29,8 @@ express()
 		async.eachLimit(domains, 2, function (url, callback) {
 			
 			full_url = "http://www."+url
-			pageView = pageView + "\n" + full_url
-			
-			unirest.get(full_url).end(function (result) {
-				pageView = pageView + "\n" + "Unirest"
-			})
+			pageView = pageView + "\n" + full_url	
+			console.load(full_url)
 
 		})
 			
