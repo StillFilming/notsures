@@ -19,13 +19,13 @@ express()
 
 	.get('/gossip', (req, res) => {
 		
-		let pageView = "Start"
+		let pageView = ""
 
 		let domains = "google.com,facebook.com"			
 		domains = domains.split(",")
 		
 		async.eachLimit(domains, 2, function (url, callback) {
-			pageView = pageView + "/n" + url
+			pageView = pageView + "\n" + url
 		}, function (err) {
 			if(err){
 				pageView = pageView + "Failed: " + url
