@@ -23,7 +23,7 @@ express()
 		
 		let pageView = "START"
 
-		let domains = "google.com,facebook.com"			
+		let domains = "google.com,facebook.com,npr.org"			
 		domains = domains.split(",")
 		
 		async.eachLimit(domains, 2, function (url, callback) {
@@ -31,10 +31,12 @@ express()
 			full_url = "http://www."+url
 			
 			unirest.get(full_url).maxRedirects(2).timeout(100000).end(function (result) {
+				pageView = pageView + "\n" + "Unirest" + url
 				if(result.error){
 					pageView = pageView+ "\n" + "-------------- Failed: " + result.error
 				} else {
 					html_content = result.body
+					
 					var clean_text = htmlToText.fromString(html_content, {
 						wordwrap: null,
 						ignoreHref: true,
