@@ -30,7 +30,7 @@ express()
 			
 			full_url = "http://www."+url
 			pageView = pageView + "\n" + full_url	
-			console.load(full_url)
+			console.log(full_url)
 
 		})
 			
