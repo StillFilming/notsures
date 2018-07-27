@@ -12,13 +12,20 @@ const fs = require('fs')
 const natural = require('natural')
 const sw = require('stopword')
 const mongodb = require('mongodb')
-const AWS = require('aws-sdk')
+const aws = require('aws-sdk')
 const uuid = require('uuid')
+const request = require('request')
 const PORT = process.env.PORT || 5000
 
+temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 
-console.log(http://s3.amazonaws.com/zn14hjeooe1p/10.JSON)
-
+request.get(temp_url, function (error, response, body) {
+	domains = JSON.parse(body)
+	console.log(domains)
+	gett(0,1000,32,function(){
+		console.log("FIN")
+	})
+})
 
 
 
@@ -63,8 +70,8 @@ function gett(startt, endd, conc, cb) {
 	var s = startt;
 	var e = endd;
 	
-	let domains = "google.com,facebook.com,youtube.com,twitter.com,microsoft.com,linkedin.com,wikipedia.org,plus.google.com,apple.com,instagram.com,wordpress.org,adobe.com,en.wikipedia.org,itunes.apple.com,wordpress.com,youtu.be,vimeo.com,blogspot.com,pinterest.com,goo.gl,maps.google.com,play.google.com,yahoo.com,googletagmanager.com,amazon.com,player.vimeo.com,bit.ly,docs.google.com,tumblr.com,github.com,flickr.com,mozilla.org,w3.org,get.adobe.com,go.microsoft.com,apache.org,sourceforge.net,gravatar.com,godaddy.com,nytimes.com,drive.google.com,sites.google.com,reddit.com,soundcloud.com,europa.eu,php.net,t.co,bbc.co.uk,cnn.com,mcc.godaddy.com,nih.gov,weebly.com,amazonaws.com,accounts.google.com,virginmedia.com,dropbox.com,theguardian.com,t-online.de,httpd.apache.org,qq.com,gnu.org,forbes.com,tinyurl.com,validator.w3.org,creativecommons.org,msn.com,issuu.com,github.io,oracle.com,wsj.com,aol.com,bing.com,imdb.com,live.com,archive.org,paypal.com,m.facebook.com,go.com,wix.com,slideshare.net,reuters.com,www.ncbi.nlm.nih.gov,huffingtonpost.com,ibm.com,myspace.com,mysql.com,washingtonpost.com,wikimedia.org,bloomberg.com,wixsite.com,mit.edu,cpanel.net,windows.microsoft.com,telegraph.co.uk,debian.org,ebay.com,cpanel.com,medium.com,bp.blogspot.com,harvard.edu,stanford.edu"			
-	domains = domains.split(",")
+	//let domains = "google.com,facebook.com,youtube.com,twitter.com,microsoft.com,linkedin.com,wikipedia.org,plus.google.com,apple.com,instagram.com,wordpress.org,adobe.com,en.wikipedia.org,itunes.apple.com,wordpress.com,youtu.be,vimeo.com,blogspot.com,pinterest.com,goo.gl,maps.google.com,play.google.com,yahoo.com,googletagmanager.com,amazon.com,player.vimeo.com,bit.ly,docs.google.com,tumblr.com,github.com,flickr.com,mozilla.org,w3.org,get.adobe.com,go.microsoft.com,apache.org,sourceforge.net,gravatar.com,godaddy.com,nytimes.com,drive.google.com,sites.google.com,reddit.com,soundcloud.com,europa.eu,php.net,t.co,bbc.co.uk,cnn.com,mcc.godaddy.com,nih.gov,weebly.com,amazonaws.com,accounts.google.com,virginmedia.com,dropbox.com,theguardian.com,t-online.de,httpd.apache.org,qq.com,gnu.org,forbes.com,tinyurl.com,validator.w3.org,creativecommons.org,msn.com,issuu.com,github.io,oracle.com,wsj.com,aol.com,bing.com,imdb.com,live.com,archive.org,paypal.com,m.facebook.com,go.com,wix.com,slideshare.net,reuters.com,www.ncbi.nlm.nih.gov,huffingtonpost.com,ibm.com,myspace.com,mysql.com,washingtonpost.com,wikimedia.org,bloomberg.com,wixsite.com,mit.edu,cpanel.net,windows.microsoft.com,telegraph.co.uk,debian.org,ebay.com,cpanel.com,medium.com,bp.blogspot.com,harvard.edu,stanford.edu"			
+	//domains = domains.split(",")
 	
 	var start = new Date()
 	function clean(html, file, callback){
@@ -106,7 +113,7 @@ function gett(startt, endd, conc, cb) {
 		cb = 0
 		var st = new Date()
 		//console.log("Limit:",limit)
-		//console.log("1. Get this site:", full_url)
+		console.log("1. Get this site:", full_url)
 		var inp = new FetchStream(full_url,{
 			headers: cus_header,
 			timeout: 10000,
@@ -125,7 +132,7 @@ function gett(startt, endd, conc, cb) {
 			if (e.message == 'getaddrinfo ENOTFOUND') {
 				num_err2++
 			}
-			//console.log("2. --------------------ERROR", e.message, url)
+			console.log("2. --------------------ERROR", e.message, url)
 			cb++
 			if (cb == 1) {
 				return callback(null, url)
@@ -143,7 +150,7 @@ function gett(startt, endd, conc, cb) {
 				if (result.length<1) {
 					e_count++
 				}
-				//console.log("2. Clean site downloaded:", url, time, result.length)
+				console.log("2. Clean site downloaded:", url, time, result.length)
 				//console.log(result.toString().slice(1,100))
 				freq(result,function(result){
 					result = JSON.stringify(result, null, '   ')
@@ -160,14 +167,14 @@ function gett(startt, endd, conc, cb) {
 	var queue = async.queue(function(task, callback){
 		getHtml(task,function(err, url){
 			if (err) {
-				//console.error("An error occurred!", err)
+				console.error("An error occurred!", err)
 			}
 			count.push(1)
 			ratio = ((num_err/(count.length))*100).toFixed(2)
 			var end = new Date()
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
-			//console.log("3. Finished: " + count.length, num_err, num_err1, num_err2, "Error: " + ratio + "%", "Empty:", e_count, (((e_count/count.length)*100).toFixed(2)) + "%")
-			//console.log("4. Speed:", rate, "seconds/site. Time:", ((end-start)/60000).toFixed(2), "Est:", (((e-s)*rate)/60).toFixed(2), "Left:", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			console.log("3. Finished: " + count.length, num_err, num_err1, num_err2, "Error: " + ratio + "%", "Empty:", e_count, (((e_count/count.length)*100).toFixed(2)) + "%")
+			console.log("4. Speed:", rate, "seconds/site. Time:", ((end-start)/60000).toFixed(2), "Est:", (((e-s)*rate)/60).toFixed(2), "Left:", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
 			return callback(err, url)
 		})
 	},limit)
@@ -181,8 +188,8 @@ function gett(startt, endd, conc, cb) {
 		})
 		index = JSON.stringify(index, null, '   ')
 		//console.log(index)
-		//console.log(date_name)
-		//console.log("DONE!")
+		console.log(date_name)
+		console.log("DONE!")
 		return 
 	}
 			
@@ -192,9 +199,9 @@ function gett(startt, endd, conc, cb) {
 		for(var i = start;i<end;i++){
 			queue.push(domains[i],function(err,url){
 				if(err){
-					//console.log("5. Finished with error:", err, url)
+					console.log("5. Finished with error:", err, url)
 				} else {
-					//console.log("5. Finished task:", url)
+					console.log("5. Finished task:", url)
 				}
 			})
 		}
@@ -205,30 +212,6 @@ function gett(startt, endd, conc, cb) {
 
 }
 		
-gett(0,100,10,function(){
-	console.log("FIN")
-})
-
-
-
-
-
-var MongoClient = mongodb.MongoClient
-
-var db_url = "mongodb://notsures_user:Gossip123@ds147011.mlab.com:47011/heroku_fhqvhjv2"
-
-/*MongoClient.connect(db_url, function(err, db){
-					if(err){
-						console.log("DB Error:",err)
-					} else {
-						console.log("DB Connection")
-						
-						
-						db.close()
-					}
-				})
-*/				
-				
-	
-	
-	
+//gett(0,100,10,function(){
+//	console.log("FIN")
+//})
