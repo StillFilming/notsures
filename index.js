@@ -15,7 +15,7 @@ const mongodb = require('mongodb')
 const aws = require('aws-sdk')
 const uuid = require('uuid')
 const request = require('request')
-const PORT = process.env.PORT || 5000
+//const PORT = process.env.PORT || 5000
 
 temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 
