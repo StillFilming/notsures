@@ -22,7 +22,7 @@ temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
 	console.log(domains)
-	gett(0,1000,32,function(){
+	gett(0,10000,200,function(){
 		console.log("FIN")
 	})
 })
