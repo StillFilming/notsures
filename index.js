@@ -43,7 +43,7 @@ var MongoClient = mongodb.MongoClient
 
 var db_url = "mongodb://notsures_user:Gossip123@ds147011.mlab.com:47011/heroku_fhqvhjv2"
 
-MongoClient.connect(db_url, function(err, db){
+/*MongoClient.connect(db_url, function(err, db){
 					if(err){
 						console.log("DB Error:",err)
 					} else {
@@ -53,7 +53,7 @@ MongoClient.connect(db_url, function(err, db){
 						db.close()
 					}
 				})
-				
+*/				
 				
 
 express()
