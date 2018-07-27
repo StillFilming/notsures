@@ -229,7 +229,7 @@ express()
 		
 		}
 		
-		gett(0,1000,100,function(){
+		gett(0,100,10,function(){
 			console.log("FIN")
 		})
 			
