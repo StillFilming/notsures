@@ -17,24 +17,9 @@ const uuid = require('uuid')
 const PORT = process.env.PORT || 5000
 
 
-var bucketName = 'node-sdk-sample-' + uuid.v4()
-var keyName = 'hello_world.txt'
-
-var bucketPromise = new AWS.S3({apiVersion: '2006-03-01'}).createBucket({Bucket: bucketName}).promise()
+console.log(http://s3.amazonaws.com/zn14hjeooe1p/10.JSON)
 
 
-bucketPromise.then(
-  function(data) {
-    var objectParams = {Bucket: bucketName, Key: keyName, Body: 'Hello World!'}
-    var uploadPromise = new AWS.S3({apiVersion: '2006-03-01'}).putObject(objectParams).promise()
-    uploadPromise.then(
-      function(data) {
-        console.log("Successfully uploaded data to " + bucketName + "/" + keyName)
-      })
-}).catch(
-  function(err) {
-    console.error(err, err.stack)
-})
 
 
 http.globalAgent.maxSockets = 10000000
