@@ -10,11 +10,51 @@ const path = require('path')
 const FetchStream = require('fetch').FetchStream
 const fs = require('fs')
 const natural = require('natural')
+const sw = require('stopword')
+const mongodb = require('mongodb')
 const PORT = process.env.PORT || 5000
 
+http.globalAgent.maxSockets = 10000000
+http.globalAgent.maxFreeSockets = 10000000
+https.globalAgent.maxSockets = 10000000
+https.globalAgent.maxFreeSockets = 10000000
+events.EventEmitter.prototype._maxListeners = 10000000
 
+process.on('uncaughtException', function (err) {
+    console.log(err)
+})
 
+var cur_time = new Date()
+var cur_day = cur_time.getDate()
+var cur_month = cur_time.getMonth()+1
+var cur_year = cur_time.getFullYear()
 
+if (cur_month.toString()<10) {
+    cur_month = 0 + cur_month.toString()
+}
+if (cur_day.toString()<10) {
+    cur_day = 0 + cur_day.toString()
+}
+
+date_name = cur_year.toString() +"-"+ cur_month.toString() +"-"+ cur_day.toString()
+date_name = date_name.toString()
+
+var MongoClient = mongodb.MongoClient
+
+var db_url = "mongodb://notsures_user:Gossip123@ds147011.mlab.com:47011/heroku_fhqvhjv2"
+
+MongoClient.connect(db_url, function(err, db){
+					if(err){
+						console.log("DB Error:",err)
+					} else {
+						console.log("DB Connection")
+						
+						
+						db.close()
+					}
+				})
+				
+				
 
 express()
 	.use(express.static(path.join(__dirname, 'public')))
@@ -65,6 +105,7 @@ express()
 						.replace(/\W/g, " ")
 						.replace(/\s+/g, " ")
 						.split(" ")
+				words = sw.removeStopwords(words)		
 				words.forEach(function (word) {
 					word = natural.PorterStemmer.stem(word)
 					if (word.length<20 && word.length>1) {
@@ -75,6 +116,7 @@ express()
 					index[word]++
 					}
 				})
+				//console.log(index)
 				return callback(index)
 			}
 			
@@ -122,15 +164,15 @@ express()
 							e_count++
 						}
 						console.log("2. Clean site downloaded:", url, time, result.length)
+						//console.log(result.toString().slice(1,100))
+						freq(result,function(result){
+							result = JSON.stringify(result, null, '   ')
+							//console.log(result.toString().slice(1,100) )
+						})
 						if (cb == 0) {
 							return callback(null, url)
 						}
-						//console.log(result.toString())
-						freq(result,function(result){
-							var now = new Date()
-							//result = JSON.stringify(result, null, '   ')
-							//console.log( now+" ++++ Collected: " + file_name + " ||||||||| " + result.toString().slice(1,100) )
-						})
+						
 					})
 				})
 			}
@@ -151,10 +193,21 @@ express()
 			},limit)
 			
 			queue.drain = function(){
-				console.log("DONE!")
-				//return cb()
+				Object.keys(index).forEach(function(key) {
+					var val = index[key]
+					if (val < 10) {
+						delete index[key]
+					}
+				})
 				index = JSON.stringify(index, null, '   ')
-				console.log(index.toString().slice(1,100))
+				console.log(index)
+				console.log(date_name)
+				console.log("DONE!")
+				
+				
+				
+				
+				return 
 			}
 			
 			
@@ -172,15 +225,15 @@ express()
 			}
 			
 			
-			loop(1,10)
+			loop(s,e)
 		
 		}
 		
-		gett(0,10,10,function(){
+		gett(0,1000,100,function(){
 			console.log("FIN")
 		})
 			
-		res.send(pageView)		
+		res.send("Working...")	
 		
 	})
 	.listen(PORT, () => console.log(`Listening on ${ PORT }`))

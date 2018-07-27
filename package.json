@@ -22,8 +22,10 @@
     "html-to-text": "^4.0.0",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "mongodb": "^3.1.1",
     "natural": "^0.6.1",
     "pg": "^7.4.3",
+    "stopword": "^0.1.10",
     "unirest": "^0.5.1"
   },
   "devDependencies": {
