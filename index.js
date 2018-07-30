@@ -175,7 +175,7 @@ function gett(startt, endd, conc, cb) {
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
 			console.log("FNSH:" + count.length, "ER:" + ratio, "EM:", e_count, (((e_count/count.length)*100).toFixed(2)))
 			//console.log("SP:", rate, "/", ((end-start)/60000).toFixed(2), (((e-s)*rate)/60).toFixed(2), "/", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
-			console.log("SP", rate, "LFT", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			console.log("SP", rate, "LFT", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2)), "T", ((end-start)/60000).toFixed(2)
 			return callback(err, url)
 		})
 	},limit)
