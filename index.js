@@ -22,7 +22,7 @@ temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
 	console.log(domains)
-	gett(0,99999,64,function(){
+	gett(0,1000,64,function(){
 		console.log("FIN")
 	})
 })
@@ -113,7 +113,7 @@ function gett(startt, endd, conc, cb) {
 		cb = 0
 		var st = new Date()
 		//console.log("Limit:",limit)
-		console.log("Get:", full_url)
+		//console.log("Get:", full_url)
 		var inp = new FetchStream(full_url,{
 			headers: cus_header,
 			timeout: 10000,
@@ -174,7 +174,7 @@ function gett(startt, endd, conc, cb) {
 			var end = new Date()
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
 			console.log("FNSH:" + count.length, "ER:" + ratio, "EM:", e_count, (((e_count/count.length)*100).toFixed(2)))
-			console.log("SP:", rate, "T:", ((end-start)/60000).toFixed(2), "E:", (((e-s)*rate)/60).toFixed(2), "L:", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			console.log("SP:", rate, "/", ((end-start)/60000).toFixed(2), (((e-s)*rate)/60).toFixed(2), "/", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
 			return callback(err, url)
 		})
 	},limit)
@@ -201,7 +201,7 @@ function gett(startt, endd, conc, cb) {
 				if(err){
 					console.log("5. Finished with error:", err, url)
 				} else {
-					console.log("5. Finished task:", url)
+					//console.log("5. Finished task:", url)
 				}
 			})
 		}
