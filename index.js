@@ -22,7 +22,7 @@ temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
 	console.log(domains)
-	gett(0,99999,64,function(){
+	gett(0,99999,32,function(){
 		console.log("FIN")
 	})
 })
@@ -132,7 +132,7 @@ function gett(startt, endd, conc, cb) {
 			if (e.message == 'getaddrinfo ENOTFOUND') {
 				num_err2++
 			}
-			console.log("2. -------ERROR", e.message, url)
+			console.log("ERR", e.errno, url)
 			cb++
 			if (cb == 1) {
 				return callback(null, url)
@@ -173,7 +173,7 @@ function gett(startt, endd, conc, cb) {
 			ratio = ((num_err/(count.length))*100).toFixed(2)
 			var end = new Date()
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
-			console.log("FNSH:" + count.length, "ER:" + ratio, "EM:", e_count, (((e_count/count.length)*100).toFixed(2)))
+			console.log("FNSH:" + count.length, "ER:" + ratio, "EM:", (((e_count/count.length)*100).toFixed(2)))
 			//console.log("SP:", rate, "/", ((end-start)/60000).toFixed(2), (((e-s)*rate)/60).toFixed(2), "/", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
 			console.log("SP", rate, "LFT", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2)), "T", ((end-start)/60000).toFixed(2)
 			return callback(err, url)
