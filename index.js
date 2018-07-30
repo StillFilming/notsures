@@ -22,7 +22,7 @@ temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
 	console.log(domains)
-	gett(0,1000,64,function(){
+	gett(0,99999,64,function(){
 		console.log("FIN")
 	})
 })
@@ -146,11 +146,11 @@ function gett(startt, endd, conc, cb) {
 			clean(body, url, function(result, file_name){
 				//console.log(result.toString())
 				var en = new Date()
-				var time = ((en - st)/1000).toFixed(4)
+				var time = ((en - st)/1000).toFixed(3)
 				if (result.length<1) {
 					e_count++
 				}
-				console.log("DWNLD:", url, time, result.length)
+				//console.log("DWNLD:", url, time, result.length)
 				//console.log(result.toString().slice(1,100))
 				freq(result,function(result){
 					result = JSON.stringify(result, null, '   ')
@@ -174,7 +174,8 @@ function gett(startt, endd, conc, cb) {
 			var end = new Date()
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
 			console.log("FNSH:" + count.length, "ER:" + ratio, "EM:", e_count, (((e_count/count.length)*100).toFixed(2)))
-			console.log("SP:", rate, "/", ((end-start)/60000).toFixed(2), (((e-s)*rate)/60).toFixed(2), "/", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			//console.log("SP:", rate, "/", ((end-start)/60000).toFixed(2), (((e-s)*rate)/60).toFixed(2), "/", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			console.log("SP", rate, "LFT", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
 			return callback(err, url)
 		})
 	},limit)
