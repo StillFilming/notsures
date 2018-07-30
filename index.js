@@ -22,7 +22,7 @@ temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
 	console.log(domains)
-	gett(0,100000,32,function(){
+	gett(0,99999,128,function(){
 		console.log("FIN")
 	})
 })
@@ -113,7 +113,7 @@ function gett(startt, endd, conc, cb) {
 		cb = 0
 		var st = new Date()
 		//console.log("Limit:",limit)
-		console.log("1. Get this site:", full_url)
+		console.log("Get:", full_url)
 		var inp = new FetchStream(full_url,{
 			headers: cus_header,
 			timeout: 10000,
@@ -132,7 +132,7 @@ function gett(startt, endd, conc, cb) {
 			if (e.message == 'getaddrinfo ENOTFOUND') {
 				num_err2++
 			}
-			console.log("2. --------------------ERROR", e.message, url)
+			console.log("2. -------ERROR", e.message, url)
 			cb++
 			if (cb == 1) {
 				return callback(null, url)
@@ -150,7 +150,7 @@ function gett(startt, endd, conc, cb) {
 				if (result.length<1) {
 					e_count++
 				}
-				console.log("2. Clean site downloaded:", url, time, result.length)
+				console.log("DWNLD:", url, time, result.length)
 				//console.log(result.toString().slice(1,100))
 				freq(result,function(result){
 					result = JSON.stringify(result, null, '   ')
@@ -173,8 +173,8 @@ function gett(startt, endd, conc, cb) {
 			ratio = ((num_err/(count.length))*100).toFixed(2)
 			var end = new Date()
 			var rate = ((end-start)/(1000*count.length)).toFixed(4)
-			console.log("3. Finished: " + count.length, num_err, num_err1, num_err2, "Error: " + ratio + "%", "Empty:", e_count, (((e_count/count.length)*100).toFixed(2)) + "%")
-			console.log("4. Speed:", rate, "seconds/site. Time:", ((end-start)/60000).toFixed(2), "Est:", (((e-s)*rate)/60).toFixed(2), "Left:", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
+			console.log("FNSH: " + count.length, num_err, "ERR: " + ratio + "%", "EMPT:", e_count, (((e_count/count.length)*100).toFixed(2)) + "%")
+			console.log("SP:", rate, ", TM:", ((end-start)/60000).toFixed(2), "Est:", (((e-s)*rate)/60).toFixed(2), "LFT:", ((((e-s)*rate)/60)-((end-start)/60000)).toFixed(2))
 			return callback(err, url)
 		})
 	},limit)
