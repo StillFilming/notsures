@@ -15,7 +15,7 @@ const mongodb = require('mongodb')
 const aws = require('aws-sdk')
 const uuid = require('uuid')
 const request = require('request')
-//const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 
 temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 
@@ -212,6 +212,9 @@ function gett(startt, endd, conc, cb) {
 
 }
 		
-//gett(0,100,10,function(){
-//	console.log("FIN")
-//})
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+.listen(PORT, () => console.log(`Listening on ${ PORT }`))
