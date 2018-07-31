@@ -17,11 +17,14 @@ const uuid = require('uuid')
 const request = require('request')
 const PORT = process.env.PORT || 5000
 
+
+
+
 temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
 
 request.get(temp_url, function (error, response, body) {
 	domains = JSON.parse(body)
-	console.log(domains)
+	//console.log(domains)
 	gett(0,99999,32,function(){
 		console.log("FIN")
 	})
@@ -183,14 +186,43 @@ function gett(startt, endd, conc, cb) {
 	queue.drain = function(){
 		Object.keys(index).forEach(function(key) {
 			var val = index[key]
-			if (val < 10) {
+			if (val < 100) {
 				delete index[key]
 			}
 		})
 		index = JSON.stringify(index, null, '   ')
-		//console.log(index)
+		console.log(index)
+		
 		console.log(date_name)
 		console.log("DONE!")
+		
+		
+		////////////////////////////
+		// Upload frequency table //
+		////////////////////////////
+		
+		aws.config.update({
+			accessKeyId: "AKIAJZ7BPQBZ7POTAMIA",
+			secretAccessKey: "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",
+			region: 'us-east-2'
+			})
+			
+		var s3 = new aws.S3()
+			
+		var bucketName = "wordfreqcount"
+		var fileName = date_name+".json"
+		
+		s3.putObject({
+			Bucket:bucketName,
+			Key:fileName,
+			Body: new Buffer(index)
+		}, function(resp){
+			console.log(resp)
+		})
+		
+		///////////////////////////
+		
+		
 		return 
 	}
 			
