@@ -202,8 +202,8 @@ function gett(startt, endd, conc, cb) {
 		////////////////////////////
 		
 		aws.config.update({
-			accessKeyId: "AKIAJZ7BPQBZ7POTAMIA",
-			secretAccessKey: "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",
+			accessKeyId: "",
+			secretAccessKey: "",
 			region: 'us-east-2'
 			})
 			
