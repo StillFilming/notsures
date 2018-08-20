@@ -20,14 +20,20 @@ const PORT = process.env.PORT || 5000
 
 
 
-temp_url = "http://ylozitskiy.com/temp/clean.html"
+temp_url = "http://ylozitskiy.com/temp/clean.csv"
 
 console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
-	console.log(error)
-	console.log(response)
-	console.log(body)
+	if (!error && response.statusCode == 200) {
+		var csv = body
+		console.log(csv)
+	} else {
+		console.log("---------------------------ERROR")
+		console.log(error)
+	}
+	//
+	//console.log(body)
 	//domains = JSON.parse(body)
 	//console.log(domains)
 	//gett(0,99999,512,function(){
