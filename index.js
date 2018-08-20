@@ -25,6 +25,8 @@ temp_url = "http://ylozitskiy.com/temp/clean.csv"
 console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
+	console.log(error)
+	console.log(response)
 	console.log(body)
 	//domains = JSON.parse(body)
 	//console.log(domains)
