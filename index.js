@@ -22,6 +22,8 @@ const PORT = process.env.PORT || 5000
 
 temp_url = "http://ylozitskiy.com/temp/clean.csv"
 
+console.log(temp_url)
+
 request.get(temp_url, function (error, response, body) {
 	console.log(body)
 	//domains = JSON.parse(body)
