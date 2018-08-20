@@ -247,7 +247,7 @@ function gett(startt, endd, conc, cb) {
 	loop(s,e)
 
 }
-		
+*/		
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -255,6 +255,6 @@ express()
   .get('/', (req, res) => res.render('pages/index'))
 .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-*/
+
 
 
