@@ -26,8 +26,8 @@ console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
 	console.log(error)
-	console.log(response)
-	console.log(body)
+	//console.log(response)
+	//console.log(body)
 	//domains = JSON.parse(body)
 	//console.log(domains)
 	//gett(0,99999,512,function(){
