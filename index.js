@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000
 
 
 
-temp_url = "http://ylozitskiy.com"
+temp_url = "http://ylozitskiy.com/temp/clean.html"
 
 console.log(temp_url)
 
