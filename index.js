@@ -20,18 +20,19 @@ const PORT = process.env.PORT || 5000
 
 
 
-temp_url = "https://cloud-cube.s3.amazonaws.com/zn14hjeooe1p/public/100k.JSON "
+temp_url = "http://ylozitskiy.com/temp/clean.csv"
 
 request.get(temp_url, function (error, response, body) {
-	domains = JSON.parse(body)
+	console.log(body)
+	//domains = JSON.parse(body)
 	//console.log(domains)
-	gett(0,99999,512,function(){
-		console.log("FIN")
-	})
+	//gett(0,99999,512,function(){
+	//	console.log("FIN")
+	//})
 })
 
 
-
+/*
 http.globalAgent.maxSockets = 10000000
 http.globalAgent.maxFreeSockets = 10000000
 https.globalAgent.maxSockets = 10000000
@@ -251,3 +252,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
 .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+*/
+
+
