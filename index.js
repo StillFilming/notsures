@@ -25,6 +25,7 @@ temp_url = "http://ylozitskiy.com/temp/clean.csv"
 console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
+	console.log("START")
 	if (!error && response.statusCode == 200) {
 		var csv = body
 		console.log(csv)
