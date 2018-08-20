@@ -26,6 +26,7 @@ console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
 	console.log("START")
+	console.log(response.statusCode)
 	if (!error && response.statusCode == 200) {
 		var csv = body
 		console.log(csv)
