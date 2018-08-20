@@ -26,7 +26,7 @@ console.log(temp_url)
 
 request.get(temp_url, function (error, response, body) {
 	console.log(error)
-	//console.log(response)
+	console.log(response)
 	//console.log(body)
 	//domains = JSON.parse(body)
 	//console.log(domains)
@@ -36,7 +36,7 @@ request.get(temp_url, function (error, response, body) {
 })
 
 
-/*
+
 http.globalAgent.maxSockets = 10000000
 http.globalAgent.maxFreeSockets = 10000000
 https.globalAgent.maxSockets = 10000000
@@ -46,7 +46,7 @@ events.EventEmitter.prototype._maxListeners = 10000000
 process.on('uncaughtException', function (err) {
     console.log(err)
 })
-
+/*
 var cur_time = new Date()
 var cur_day = cur_time.getDate()
 var cur_month = cur_time.getMonth()+1
