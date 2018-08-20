@@ -20,18 +20,21 @@ const PORT = process.env.PORT || 5000
 
 
 
-temp_url = "http://ylozitskiy.com/temp/clean.csv"
+//temp_url = "http://ylozitskiy.com/temp/clean.csv"
+temp_url = "http://ylozitskiy.com"
 
 console.log(temp_url)
 
+/*
 request.get(temp_url, function (error, response, body) {
 	console.log("START")
 	console.log(response.statusCode)
 	if (!error && response.statusCode == 200) {
+		console.log("Working")
 		var csv = body
 		console.log(csv)
 	} else {
-		console.log("---------------------------ERROR")
+		console.log("Not Working")
 		console.log(error)
 	}
 	//
@@ -42,6 +45,24 @@ request.get(temp_url, function (error, response, body) {
 	//	console.log("FIN")
 	//})
 })
+*/
+
+http.get(temp_url).on('response', function (response) {
+    var body = ''
+    var i = 0
+    response.on('data', function (chunk) {
+        i++
+        body += chunk
+        console.log('BODY Part: ' + i)
+    })
+    response.on('end', function () {
+        console.log(body)
+        console.log('Finished')
+    })
+})
+
+
+
 
 
 
