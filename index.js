@@ -1034,7 +1034,7 @@ function callbackDone () {
             delete index[key]
         }
     });
-    console.log(index);
+    console.log(Object.keys(index).length);
 }
 
 function freq(text, callback){
@@ -1079,8 +1079,8 @@ function getHtml(url,callback){
         method: 'get',
         url: url,
         timeout: 5000,
-        maxRedirects: 2,
-        headers: cus_header
+        maxRedirects: 2//,
+        //headers: cus_header
     }).then(function (response) {
             body = response.data;
             clean(body, url, function(result, file_name){
