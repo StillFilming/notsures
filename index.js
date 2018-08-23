@@ -24,6 +24,7 @@ var htmlToText = require('html-to-text');
 var sw = require('stopword');
 var natural = require('natural');
 var express = require('express');
+var path = require('path');
 
 
 var limit = 5;
