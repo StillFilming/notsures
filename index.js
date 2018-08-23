@@ -1016,7 +1016,7 @@ var axios = require('axios');
 var htmlToText = require('html-to-text');
 var sw = require('stopword');
 var natural = require('natural');
-
+var http = require('http');
 
 
 var limit = 32;
@@ -1024,6 +1024,7 @@ var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
 var error_count = 0;
+var cus_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0'}
 
 function callbackDone () {
     console.log('all done');
@@ -1074,8 +1075,13 @@ function clean(html, file, callback){
 }
 
 function getHtml(url,callback){
-    axios.get(url)
-        .then(function (response) {
+    axios({
+        method: 'get',
+        url: url,
+        timeout: 5000,
+        maxRedirects: 2,
+        headers: cus_header
+    }).then(function (response) {
             body = response.data;
             clean(body, url, function(result, file_name){
                 if(result.length>0){
