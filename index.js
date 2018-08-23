@@ -1,3 +1,6 @@
+var express = require('express');
+var path = require('path');
+var PORT = process.env.PORT || 5000;
 var site_array = [
     "facebook.com",
     "youtube.com",
@@ -17,15 +20,12 @@ var site_array = [
     "vimeo.com",
     "blogspot.com"];
 
-var PORT = process.env.PORT || 5000;
+
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
 var sw = require('stopword');
 var natural = require('natural');
-var express = require('express');
-var path = require('path');
-
 
 var limit = 5;
 var index = [];
