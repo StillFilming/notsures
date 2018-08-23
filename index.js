@@ -35,6 +35,10 @@ var htmlToText = require('html-to-text');
 var sw = require('stopword');
 var natural = require('natural');
 
+
+
+
+
 var limit = 5;
 var index = [];
 var itemsProcessed = 0;
@@ -68,6 +72,7 @@ function freq(text, callback){
             index[word]++
         }
     });
+    itemsProcessed++;
     if(itemsProcessed === site_array.length) {
         callbackDone();
     }
@@ -96,14 +101,12 @@ function getHtml(url,callback){
             clean(body, url, function(result, file_name){
                 console.log(result.length);
                 freq(result,function(result){
-                    itemsProcessed++;
-                    console.log(itemsProcessed,site_array.length);
+
                 })
             })
         })
         .catch(function (error) {
             itemsProcessed++;
-            console.log(itemsProcessed,site_array.length);
             if(itemsProcessed === site_array.length) {
                 callbackDone();
             }
@@ -118,7 +121,5 @@ async.forEachLimit(site_array,limit,function (item, callback) {
 },function (err) {
     console.log(err);
 });
-
-
 
 
