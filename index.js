@@ -1078,7 +1078,7 @@ function getHtml(url,callback){
     axios({
         method: 'get',
         url: url,
-        timeout: 15000,
+        timeout: 50000,
         maxRedirects: 2//,
         //headers: cus_header
     }).then(function (response) {
