@@ -17,7 +17,7 @@ var site_array = [
     "vimeo.com",
     "blogspot.com"];
 
-
+var PORT = process.env.PORT || 5000;
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
