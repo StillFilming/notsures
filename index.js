@@ -1019,7 +1019,7 @@ var natural = require('natural');
 var http = require('http');
 
 
-var limit = 16;
+var limit = 8;
 var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
@@ -1078,7 +1078,7 @@ function getHtml(url,callback){
     axios({
         method: 'get',
         url: url,
-        timeout: 100000,
+        timeout: 150000,
         maxRedirects: 2//,
         //headers: cus_header
     }).then(function (response) {
