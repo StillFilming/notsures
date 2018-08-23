@@ -1012,6 +1012,7 @@ var site_array = [
 
 
 
+
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
@@ -1090,15 +1091,16 @@ function clean(html, file, callback){
 }
 
 function getHtml(url,callback){
+    full_url = "http://www."+url;
     axios({
         method: 'get',
-        url: url,
-        timeout: 15000,
+        url: full_url,
+        timeout: 50000,
         maxRedirects: 5//,
         //headers: cus_header
     }).then(function (response) {
             body = response.data;
-            clean(body, url, function(result, file_name){
+            clean(body, full_url, function(result, file_name){
                 if(result.length>0){
                     //console.log(result.length,url);
                     freq(result,function(result){})
@@ -1125,8 +1127,13 @@ function getHtml(url,callback){
 
 
 async.forEachLimit(site_array,limit,function (item, callback) {
-    getHtml("http://"+item);
+    getHtml(item);
     callback(null);
 },function (err) {
     console.log(err);
 });
+
+
+
+
+
