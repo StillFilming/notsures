@@ -1113,7 +1113,7 @@ function getHtml(url,callback){
             })
         })
         .catch(function (error) {
-            console.log(error);
+            console.log(error.code);
             error_count++;
             itemsProcessed++;
             console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
