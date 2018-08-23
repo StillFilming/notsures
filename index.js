@@ -1035,7 +1035,7 @@ process.on('uncaughtException', function (err) {
 
 
 
-var limit = 32;
+var limit = 8;
 var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
