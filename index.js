@@ -1011,8 +1011,6 @@ var site_array = [
 "sf.net"];
 
 
-
-
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
@@ -1021,7 +1019,7 @@ var natural = require('natural');
 var http = require('http');
 var https = require('https');
 var events = require('events');
-
+var FetchStream = require('fetch').FetchStream;
 
 http.globalAgent.maxSockets = 10000000;
 http.globalAgent.maxFreeSockets = 10000000;
@@ -1035,7 +1033,7 @@ process.on('uncaughtException', function (err) {
 
 
 
-var limit = 8;
+var limit = 32;
 var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
@@ -1092,37 +1090,44 @@ function clean(html, file, callback){
 
 function getHtml(url,callback){
     full_url = "http://www."+url;
-    axios({
-        method: 'get',
-        url: full_url,
-        timeout: 50000,
-        maxRedirects: 5//,
-        //headers: cus_header
-    }).then(function (response) {
-            body = response.data;
-            clean(body, full_url, function(result, file_name){
-                if(result.length>0){
-                    //console.log(result.length,url);
-                    freq(result,function(result){})
-                } else {
-                    empty_count++;
-                    itemsProcessed++;
-                    console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-                    if(itemsProcessed === site_array.length) {
-                        callbackDone();
-                    }
+    var body = [];
+    var inp = new FetchStream(full_url,{
+        headers: cus_header,
+        timeout: 5000,
+        maxRedirects:1,
+        agent: false,
+        compress: false,
+        pool: false,
+        keepAlive: true
+    }).setMaxListeners(0);
+    inp.on("error",function(e){
+        console.log(e.message);
+        error_count++;
+        itemsProcessed++;
+        console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
+        if(itemsProcessed === site_array.length) {
+            callbackDone();
+        }
+    });
+    inp.on("data",function(chunk){
+        body.push(chunk)
+    });
+    inp.on("end",function(){
+        body = Buffer.concat(body);
+        clean(body, full_url, function(result, file_name){
+            if(result.length>0){
+                //console.log(result.length,url);
+                freq(result,function(result){})
+            } else {
+                empty_count++;
+                itemsProcessed++;
+                console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
+                if(itemsProcessed === site_array.length) {
+                    callbackDone();
                 }
-            })
-        })
-        .catch(function (error) {
-            console.log(error.code);
-            error_count++;
-            itemsProcessed++;
-            console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-            if(itemsProcessed === site_array.length) {
-                callbackDone();
             }
-        });
+        })
+    });
 }
 
 
@@ -1132,8 +1137,6 @@ async.forEachLimit(site_array,limit,function (item, callback) {
 },function (err) {
     console.log(err);
 });
-
-
 
 
 
