@@ -1,6 +1,14 @@
 var express = require('express');
 var path = require('path');
 var PORT = process.env.PORT || 5000;
+
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
 var site_array = [
     "facebook.com",
     "youtube.com",
@@ -40,6 +48,7 @@ function callbackDone () {
         }
     });
     console.log(index);
+
 }
 
 function freq(text, callback){
@@ -59,11 +68,9 @@ function freq(text, callback){
             index[word]++
         }
     });
-    itemsProcessed++;
     if(itemsProcessed === site_array.length) {
         callbackDone();
     }
-    //console.log(index);
     return callback(index);
 }
 
@@ -82,15 +89,24 @@ function clean(html, file, callback){
 function getHtml(url,callback){
     axios.get(url)
         .then(function (response) {
+
             console.log(url);
             console.log(response.status);
             body = response.data;
             clean(body, url, function(result, file_name){
                 console.log(result.length);
-                freq(result,function(result){})
+                freq(result,function(result){
+                    itemsProcessed++;
+                    console.log(itemsProcessed,site_array.length);
+                })
             })
         })
         .catch(function (error) {
+            itemsProcessed++;
+            console.log(itemsProcessed,site_array.length);
+            if(itemsProcessed === site_array.length) {
+                callbackDone();
+            }
             console.log(error.code);
         });
 }
@@ -102,14 +118,6 @@ async.forEachLimit(site_array,limit,function (item, callback) {
 },function (err) {
     console.log(err);
 });
-
-
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
 
