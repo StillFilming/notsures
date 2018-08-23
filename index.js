@@ -1011,15 +1011,30 @@ var site_array = [
 "sf.net"];
 
 
+
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
 var sw = require('stopword');
 var natural = require('natural');
 var http = require('http');
+var https = require('https');
+var events = require('events');
 
 
-var limit = 8;
+http.globalAgent.maxSockets = 10000000;
+http.globalAgent.maxFreeSockets = 10000000;
+https.globalAgent.maxSockets = 10000000;
+https.globalAgent.maxFreeSockets = 10000000;
+events.EventEmitter.prototype._maxListeners = 10000000;
+
+process.on('uncaughtException', function (err) {
+    console.log(err)
+});
+
+
+
+var limit = 32;
 var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
@@ -1056,7 +1071,7 @@ function freq(text, callback){
     });
     itemsProcessed++;
     console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-    if(itemsProcessed === (site_array.length-5)) {
+    if(itemsProcessed === site_array.length) {
         callbackDone();
     }
     return callback(index);
@@ -1078,8 +1093,8 @@ function getHtml(url,callback){
     axios({
         method: 'get',
         url: url,
-        timeout: 150000,
-        maxRedirects: 2//,
+        timeout: 15000,
+        maxRedirects: 5//,
         //headers: cus_header
     }).then(function (response) {
             body = response.data;
@@ -1091,17 +1106,18 @@ function getHtml(url,callback){
                     empty_count++;
                     itemsProcessed++;
                     console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-                    if(itemsProcessed === (site_array.length-5)) {
+                    if(itemsProcessed === site_array.length) {
                         callbackDone();
                     }
                 }
             })
         })
         .catch(function (error) {
+            console.log(error);
             error_count++;
             itemsProcessed++;
             console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-            if(itemsProcessed === (site_array.length-5)) {
+            if(itemsProcessed === site_array.length) {
                 callbackDone();
             }
         });
