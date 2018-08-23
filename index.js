@@ -1110,8 +1110,9 @@ function getHtml(url,callback){
         if(itemsProcessed === site_array.length) {
             callbackDone();
         }
+        cb++;
         if (cb === 1) {
-            return callback(null, url)
+            return callback(e, url)
         }
     });
     inp.on("data",function(chunk){
@@ -1152,17 +1153,13 @@ queue.drain = function(){
 
 function loop(start,end){
     for(var i = start;i<end;i++){
-        queue.push(site_array[i],function(err,url){
-            if(err){
-                console.log("5. Finished with error:", err, url)
-            } else {
-                console.log("5. Finished task:", url)
-            }
-        })
+        queue.push(site_array[i],function(err,url){})
     }
 }
 
 loop(0,site_array.length);
+
+
 
 
 
