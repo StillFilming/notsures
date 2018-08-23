@@ -1019,7 +1019,7 @@ var natural = require('natural');
 var http = require('http');
 
 
-var limit = 32;
+var limit = 16;
 var index = [];
 var itemsProcessed = 0;
 var empty_count = 0;
@@ -1056,7 +1056,7 @@ function freq(text, callback){
     });
     itemsProcessed++;
     console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-    if(itemsProcessed === site_array.length) {
+    if(itemsProcessed === (site_array.length-5)) {
         callbackDone();
     }
     return callback(index);
@@ -1078,7 +1078,7 @@ function getHtml(url,callback){
     axios({
         method: 'get',
         url: url,
-        timeout: 50000,
+        timeout: 100000,
         maxRedirects: 2//,
         //headers: cus_header
     }).then(function (response) {
@@ -1091,7 +1091,7 @@ function getHtml(url,callback){
                     empty_count++;
                     itemsProcessed++;
                     console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-                    if(itemsProcessed === site_array.length) {
+                    if(itemsProcessed === (site_array.length-5)) {
                         callbackDone();
                     }
                 }
@@ -1101,7 +1101,7 @@ function getHtml(url,callback){
             error_count++;
             itemsProcessed++;
             console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
-            if(itemsProcessed === site_array.length) {
+            if(itemsProcessed === (site_array.length-5)) {
                 callbackDone();
             }
         });
