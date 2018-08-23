@@ -1011,6 +1011,7 @@ var site_array = [
 "sf.net"];
 
 
+
 var async = require("async");
 var axios = require('axios');
 var htmlToText = require('html-to-text');
@@ -1091,6 +1092,7 @@ function clean(html, file, callback){
 function getHtml(url,callback){
     full_url = "http://www."+url;
     var body = [];
+    cb = 0;
     var inp = new FetchStream(full_url,{
         headers: cus_header,
         timeout: 5000,
@@ -1107,6 +1109,9 @@ function getHtml(url,callback){
         console.log(itemsProcessed,"of",site_array.length,"err",error_count,"emt",empty_count);
         if(itemsProcessed === site_array.length) {
             callbackDone();
+        }
+        if (cb === 1) {
+            return callback(null, url)
         }
     });
     inp.on("data",function(chunk){
@@ -1126,17 +1131,38 @@ function getHtml(url,callback){
                     callbackDone();
                 }
             }
+            if (cb === 0) {
+                return callback(null, url)
+            }
         })
     });
 }
 
 
-async.forEachLimit(site_array,limit,function (item, callback) {
-    getHtml(item);
-    callback(null);
-},function (err) {
-    console.log(err);
-});
+var queue = async.queue(function(task, callback){
+    getHtml(task,function(err, url){
+        return callback(err,url);
+    });
+},limit);
+
+
+queue.drain = function(){
+    console.log("DONE!");
+};
+
+function loop(start,end){
+    for(var i = start;i<end;i++){
+        queue.push(site_array[i],function(err,url){
+            if(err){
+                console.log("5. Finished with error:", err, url)
+            } else {
+                console.log("5. Finished task:", url)
+            }
+        })
+    }
+}
+
+loop(0,site_array.length);
 
 
 
